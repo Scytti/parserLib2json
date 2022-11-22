@@ -13,12 +13,12 @@ import json
 from liberty.parser import parse_liberty
 
 pathToLibrary = "/home/daniil/workdir/synth/Example/sky130_fd_sc_hd__ff_100C_1v65.lib"
-pathToFile = "/home/daniil/workdir/synth/Example/lib.json"
+pathToFile = "/home/daniil/workdir/synth/Example/lib2.json"
 
 def read_information_from_library(path_to_library):
     library = parse_liberty(open(path_to_library).read())
 
-    input_pins = []
+    input_pins = ""
     output_pins = {}
     cell_library = {}
 
@@ -31,10 +31,12 @@ def read_information_from_library(path_to_library):
                 pin_function_attribute = str(pin_group["function"])[1:len(str(pin_group["function"])) - 1]
                 output_pins[pin_name_attribute] = pin_function_attribute
             else:
-                input_pins.append(pin_name_attribute)
+                input_pins += pin_name_attribute
+                input_pins += " "
+                #input_pins.append(pin_name_attribute)
         cell_library[cell_name] = {'input': input_pins, 'output': output_pins, }
 
-        input_pins = []
+        input_pins = ""
         output_pins = {}
 
     return cell_library
